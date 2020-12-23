@@ -42,3 +42,38 @@ class CompanyDetailsApiView(APIView):
         company_id.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+
+class DepartmentDetailsApiView(APIView):
+
+    def get(self,request,pk):
+        all_department = Department.objects.all()
+
+        if all_department:
+            department_serializers = DepartmentSerializers(all_department, many=True)
+            return Response(department_serializers.data)
+        else:
+            return Response(department_serializers.errors, status=status.HTTP_400_BAD_REQUEST),
+
+
+    def post(self,request,pk):
+        department_serializers = DepartmentSerializers(data=request.data)
+        if department_serializers.is_valid():
+            department_serializers.save()
+            return Response(department_serializers.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(department_serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    def put(self,request,pk):
+        department_id = Department.objects.get(pk=pk)
+        department_serializers = DepartmentSerializers(department_id,data=request.data)
+        if department_serializers.is_valid():
+            return Response(department_serializers.data, status=status.HTTP_200_OK)            
+        else:
+            return Response(department_serializers.errors, status=status.HTTP_400_BAD_REQUEST )
+
+    
+    def delete(self,request,pk):
+        department_id = Department.objects.get(pk=pk)
+        department_id.delete()
+        return Response(status = status.HTTP_204_NO_CONTENT)

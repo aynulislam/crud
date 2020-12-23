@@ -6,5 +6,6 @@ from employee import views
 
 urlpatterns = [
 
-    path('company-details/<int:pk>/', views.CompanyDetailsApiView.as_view()),    
+    path('company-details/<int:pk>/', views.CompanyDetailsApiView.as_view()),
+    path('department-details/<int:pk>/', views.DepartmentDetailsApiView.as_view()),    
 ]
